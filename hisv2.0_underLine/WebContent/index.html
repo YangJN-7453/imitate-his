@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="css/common.css">
+
+<!-- 注意：此处两js文件的引入顺序不可颠倒，必须先jquery再bootstrap -->
+<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-default" style="margin-bottom: 3px">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+
+				<a class="navbar-brand" href="#">云his</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+
+				<ul class="nav navbar-nav navbar-right">
+
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown" role="button" aria-haspopup="true"
+						aria-expanded="false">${user.realName }<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">查看个人信息</a></li>
+							<li><a href="#">修改密码</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#">退出系统</a></li>
+						</ul></li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+	
+	
+	<!-- left--begin -->
+	<div id="nav">
+		<ul>
+			<li>
+				<a href="#" class="header_icon" style="background-color:pink;"><i class="glyphicon glyphicon-leaf"></i></a>
+				<a href="#" class="header_icon" style="background-color:cornflowerblue;"><i class="glyphicon glyphicon-fire"></i></a>
+				<a href="#" class="header_icon" style="background-color:gold;"><i class="glyphicon glyphicon-wrench"></i></a>
+				<a href="#" class="header_icon" style="background-color:red;"><i class="glyphicon glyphicon-apple"></i></a>
+			</li>
+		
+			<li>
+				<a href="constantType.html" target="main"><i class="glyphicon glyphicon-asterisk"></i> 常数类别</a>
+			</li>
+			<li>
+				<a href="department.html" target="main"><i class="glyphicon glyphicon-th-large"></i> 科室管理</a>
+			</li>
+			<li>
+				<a href="user.html" target="main"><i class="glyphicon glyphicon-user"></i> 用户管理</a>
+			</li>
+			<li>
+				<a href="registLevel.html" target="main"><i class="glyphicon glyphicon-plus-sign"></i> 挂号级别</a>
+			</li>
+			<li>
+				<a href="disease.html" target="main"><i class="glyphicon glyphicon-asterisk"></i> 诊断目录</a>
+			</li>
+			<li>
+				<a href="fmeditem.html" target="main"><i class="glyphicon glyphicon-asterisk"></i> 非药品收费</a>
+			</li>
+			<li>
+				<a href="rule.html" target="main"><i class="glyphicon glyphicon-asterisk"></i> 医生排班</a>
+			</li>
+		</ul>
+	</div>
+	<!-- left--end -->
+	
+	<iframe class="main" name="main" src="user.html" frameborder="0" width="70%" height="100%"></iframe>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="hisv2.0_underLine">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="hisv2.0_underLine"/>
+        <property name="java-output-path" value="/hisv2.0_underLine/build/classes"/>
+    </wb-module>
+</project-modules>

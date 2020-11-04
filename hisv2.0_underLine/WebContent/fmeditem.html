@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>非药品收费项目管理</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/common.css">
+<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/fmeditem.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+	<ol class="breadcrumb">
+		<li><a href="index.jsp" target="_blank">东软云his系统</a></li>
+		<li><a href="index.jsp" target="_blank">后台管理</a></li>
+		<li class="active">非药品收费项目管理</li>
+	</ol>
+	
+	<div class="showDataTable">
+		<!-- 查询表单界面  begin -->
+		<div style="margin-bottom: 20px">
+			<form class="form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">编码</div>
+						<input type="text" class="form-control" id="fmeditemCode" placeholder="请输入科室编码">
+					</div>
+				</div>
+				<button type="button" class="btn btn-info" onclick="findByCode()">查询</button>
+				<button type="button" class="btn btn-success" onclick="fadd()">添加</button>
+			</form>
+		</div>
+		<!-- 查询表单界面  end -->
+
+		<!-- table table-bordered table-strapped 包含斑马线效果 -->
+		<table class="table table-bordered table-striped"
+			style="width: 1000px;">
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="qx"></th>
+					<th>项目编码</th>
+					<th>项目名称</th>
+					<th>单价</th>
+					<th>所属费用科目</th>
+					<th>执行科室</th>
+					<th>拼音助记码</th>
+					<th>创建时间</th>
+					<th>最后修改时间</th>
+					<th>项目类型</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="fmeditemData">
+
+			</tbody>
+		</table>
+		<div style="width: 500px; display: none" id="pagediv"></div>
+	</div>
+	
+	
+	<!-- 删除按钮的提示框：begin -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+				</div>
+				<div class="modal-body">
+					您确定要删除此条数据吗？
+					<!-- hidden 隐藏域， 用于传参：获取fdelete函数中的id值，用于删除某一行数据 -->
+					<input type="hidden" id="fmesitemId" >
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="doDelete()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 删除按钮的提示框：end -->
+	
+	<!-- 添加和修改：begin -->
+	<div class="modal fade" id="saveAndUpdate" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="saveAndUpdateLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<!-- 水平排列的表单 -->
+					<form class="form-horizontal" id="addOrUpdateForm">
+						<div class="form-group">
+							<label for="addItemCode" class="col-sm-2 control-label">项目编码</label>
+					<!-- label的for值与input的id值对应 -->		
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="addItemCode" placeholder="请输入科室编号">
+								<input type="hidden" id="addItemId">
+							</div>
+							
+							<label for="addItemName" class="col-sm-2 control-label">项目名称</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="addItemName" placeholder="请输入科室名称">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="addPrice" class="col-sm-2 control-label">单价</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="addPrice" placeholder="请输入科室编号">
+							</div>
+							
+							<label for="addFormat" class="col-sm-2 control-label">规格</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="addFormat" placeholder="请输入科室名称">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="addExpClassName" class="col-sm-2 control-label">所属费用科目</label>
+							<div class="col-sm-4">
+								<select name="addExpClassName" id="addExpClassName" style="width: 100%; height: 34px;">
+									<option value="">--请选择所属费用科目--</option>
+								</select>
+							</div>
+							
+							<label for="addDeptName" class="col-sm-2 control-label">执行科室</label>
+							<div class="col-sm-4">
+								<select name="addDeptName" id="addDeptName" style="width: 100%; height: 34px;">
+									<option value="">--请选择执行科室--</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="addMnemonicCode" class="col-sm-2 control-label">拼音助记码</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="addMnemonicCode" placeholder="请输入拼音助记码">
+							</div>
+							
+							<label for="addRecordType" class="col-sm-2 control-label">项目类型</label>
+							<div class="col-sm-4">
+								<select name="addRecordType" id="addRecordType" style="width: 100%; height: 34px;">
+									<option value="0">--请选择项目类型--</option>
+									<option value="1">检查</option>
+									<option value="2">检验</option>
+									<option value="3">处置</option>
+								</select>
+							</div>
+						</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" id="addBtn" onclick="doSaveOrUpdate()">保存</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加和修改：end -->
+</body>
+</html>

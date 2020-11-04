@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>常数类别管理</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/common.css">
+<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/constantType.js"></script>
+</head>
+<body>
+	<!-- 1.页面加载完成后，异步请求服务器servlet，获取第一页的数据 -->
+
+	<!-- 2.将获取的数据填充到当前页面上的表格上 -->
+
+	<!-- 3.通过表格的超链接进行修改或删除 -->
+	
+	<ol class="breadcrumb">
+		<li><a href="index.jsp" target="_blank">东软云his系统</a></li>
+		<li><a href="index.jsp" target="_blank">后台管理</a></li>
+		<li class="active">常数类别管理</li>
+	</ol>
+	
+	<div class="showDataTable">
+		<!-- 查询表单界面  begin -->
+		<div style="margin-bottom: 20px">
+			<form class="form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">编码</div>
+						<input type="text" class="form-control" id="constanttypecode" placeholder="请输入常数类别编码">
+					</div>
+				</div>
+				<button type="button" class="btn btn-info" onclick="findByCode()">查询</button>
+				<button type="button" class="btn btn-success" onclick="fadd()">添加</button>
+			</form>
+		</div>
+		<!-- 查询表单界面  end -->
+	
+		<!-- table table-bordered table-strapped 包含斑马线效果 -->
+		<table class="table table-bordered table-striped"
+			style="width: 500px;">
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="qx"></th>
+					<th>编码</th>
+					<th>名称</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="constantTypeData">
+
+			</tbody>
+		</table>
+	</div>
+	
+	
+	<!-- 删除按钮的提示框：begin -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+				</div>
+				<div class="modal-body">
+					您确定要删除此条数据吗？
+					<!-- hidden 隐藏域， 用于传参：获取fdelete函数中的id值，用于删除某一行数据 -->
+					<input type="hidden" id="constanttypeid" >
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="doDelete()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 删除按钮的提示框：end -->
+	
+	
+	<!-- 查看按钮的提示框：begin -->
+	<div class="modal fade" id="see" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">常数项数据</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered table-stripped">
+						<thead>
+							<tr>
+								<th>id</th><th>编码</th><th>名称</th>
+							</tr>
+						</thead>
+						<tbody id="constantitemsData">
+							
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 查看按钮的提示框：end -->
+	
+	
+	<!-- 添加和修改：begin -->
+	<div class="modal fade" id="saveAndUpdate" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="saveAndUpdateLabel"></h4>
+				</div>
+				<div class="modal-body">
+					<!-- 水平排列的表单 -->
+					<form class="form-horizontal" id="addOrUpdateForm">
+						<div class="form-group">
+							<label for="addConstantTypeCode" class="col-sm-3 control-label">常数类别编码</label>
+					<!-- label的for值与input的id值对应 -->		
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="addConstantTypeCode" placeholder="请输入常数类别编码">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="addConstantTypeName" class="col-sm-3 control-label">常数类别名称</label>
+							<div class="col-sm-9">
+								<input type="text" class="form-control" id="addConstantTypeName" placeholder="请输入常数类别名称">
+								<input type="hidden" id="addConstantTypeId">
+							</div>
+						</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" id="addBtn" onclick="doSaveOrUpdate()">保存</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加和修改：end -->
+	
+</body>
+</html>

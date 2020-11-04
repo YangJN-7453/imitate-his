@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>医生排班管理</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/common.css">
+<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/rule.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+	<ol class="breadcrumb">
+		<li><a href="index.jsp" target="_blank">东软云his系统</a></li>
+		<li><a href="index.jsp" target="_blank">后台管理</a></li>
+		<li class="active">医生排班管理</li>
+	</ol>
+	
+	<div class="showDataTable">
+		<!-- 查询表单界面  begin -->
+		<div style="margin-bottom: 20px">
+			<form class="form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">用户名</div>
+						<input type="text" class="form-control" id="userName" placeholder="请输入用户名">
+					</div>
+				</div>
+				<button type="button" class="btn btn-info" onclick="findByCode()">查询</button>
+				<button type="button" class="btn btn-success" onclick="fadd()">新增排班规则</button>
+			</form>
+		</div>
+		<!-- 查询表单界面  end -->
+
+		<!-- table table-bordered table-strapped 包含斑马线效果 -->
+		<table class="table table-bordered table-striped"
+			style="width: 1000px;">
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="qx"></th>
+					<th>医生名称</th>
+					<th>规则名称</th>
+					<th>星期一上午</th>
+					<th>星期一下午</th>
+					<th>星期二上午</th>
+					<th>星期二下午</th>
+					<th>星期三上午</th>
+					<th>星期三下午</th>
+					<th>星期四上午</th>
+					<th>星期四下午</th>
+					<th>星期五上午</th>
+					<th>星期五下午</th>
+					<th>星期六上午</th>
+					<th>星期六下午</th>
+					<th>星期日上午</th>
+					<th>星期日下午</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="ruleData">
+
+			</tbody>
+		</table>
+		<div style="width: 500px; display: none" id="pagediv"></div>
+	</div>
+	
+	<!-- 设置排班规则：begin -->
+	<div class="modal fade bs-example-modal-lg" id="saveAndUpdate" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel">
+		<div class="modal-dialog" role="document" style="width: 1050px">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="saveAndUpdateLabel" style="text-align: center;margin-bottom: 10px">新增排班规则</h4>
+					
+					<form class="form-horizontal" id="selectDeptAndRegist">
+						<div class="form-group">
+							<label for="infoDeptName" class="col-sm-1 control-label">科室选择</label>
+							<div class="col-sm-2">
+								<select name="infoDeptName" id="infoDeptName" style="width: 100%; height: 34px;">
+									<option value="">--请选择科室分类--</option>
+								</select>
+							</div>
+							
+							<label for="infoRegistLevel" class="col-sm-1 control-label">挂号级别</label>
+							<div class="col-sm-2">
+								<select name="infoRegistLevel" id="infoRegistLevel" style="width: 100%; height: 34px;">
+									<option value="">--请选择挂号级别--</option>
+								</select>
+							</div>
+							<button type="button" class="btn btn-info" onclick="findForSetRule()">查询</button>
+							<button type="button" class="btn btn-warning" onclick="resetInfo();">清空</button>
+						</div>
+					</form>
+				</div>
+				<div class="modal-body">
+				
+					<table class="table table-bordered table-striped"
+						style="width: 1000px;">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="qx"></th>
+								<th>医生名称</th>
+								<th>星期一上午</th>
+								<th>星期一下午</th>
+								<th>星期二上午</th>
+								<th>星期二下午</th>
+								<th>星期三上午</th>
+								<th>星期三下午</th>
+								<th>星期四上午</th>
+								<th>星期四下午</th>
+								<th>星期五上午</th>
+								<th>星期五下午</th>
+								<th>星期六上午</th>
+								<th>星期六下午</th>
+								<th>星期日上午</th>
+								<th>星期日下午</th>
+							</tr>
+						</thead>
+						<tbody id="userInRuleData">
+			
+						</tbody>
+					</table>
+					
+				</div>
+				<div class="modal-footer">
+					<form class="form-horizontal" id="addRuleForm" >
+						<div class="form-group" style="padding-right: 40px">
+							<label for="ruleName" class="col-sm-2 control-label">规则名称</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="ruleName" placeholder="请输入规则名称">
+							</div>
+							<button type="button" class="btn btn-info" id="addBtn" onclick="doSaveOrUpdate()">保存</button>
+							<button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+						</div>
+					</form>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 设置排班规则：end -->
+</body>
+</html>

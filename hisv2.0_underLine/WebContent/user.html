@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="css/common.css">
+<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+</head>
+<body>
+	<ol class="breadcrumb">
+		<li><a href="index.jsp" target="_blank">东软云his系统</a></li>
+		<li><a href="index.jsp" target="_blank">后台管理</a></li>
+		<li class="active">用户管理</li>
+	</ol>
+	
+	<div class="showDataTable">
+		<!-- 查询表单界面  begin -->
+		<div style="margin-bottom: 20px">
+			<form class="form-inline">
+				<div class="form-group">
+					<div class="input-group">
+						<div class="input-group-addon">用户名</div>
+						<input type="text" class="form-control" id="userName" placeholder="请输入用户名">
+					</div>
+				</div>
+				<button type="button" class="btn btn-info" onclick="findByUname()">查询</button>
+				<button type="button" class="btn btn-success" onclick="fadd()">添加</button>
+			</form>
+		</div>
+		<!-- 查询表单界面  end -->
+
+		<!-- table table-bordered table-strapped 包含斑马线效果 -->
+		<table class="table table-bordered table-striped"
+			style="width: 800px;">
+			<thead>
+				<tr>
+					<th><input type="checkbox" id="qx"></th>
+					<th>用户名</th>
+					<th>真实姓名</th>
+					<th>用户类型</th>
+					<th>所在科室</th>
+					<th>职称</th>
+					<th>挂号级别</th>
+					<th>是否排班</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody id="userData">
+
+			</tbody>
+		</table>
+		<div style="width: 500px; display: none" id="pagediv"></div>
+	</div>
+	
+	
+	<!-- 删除按钮的提示框：begin -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">温馨提示</h4>
+				</div>
+				<div class="modal-body">
+					您确定要删除该用户数据吗？
+					<!-- hidden 隐藏域， 用于传参：获取fdelete函数中的id值，用于删除某一行数据 -->
+					<input type="hidden" id="constanttypeid" >
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" onclick="doDelete()">确定</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 删除按钮的提示框：end -->
+	
+	
+	<!-- 添加：begin -->
+	<div class="modal fade" id="save" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title" id="saveLabel">添加用户</h4>
+				</div>
+				<div class="modal-body">
+					<!-- 水平排列的表单 -->
+					<form class="form-horizontal" id="addForm">
+						<div class="form-group">
+							<label for="username" class="col-sm-2 control-label">登录账号</label>
+					<!-- label的for值与input的id值对应 -->		
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名">
+								<input type="hidden" id="addUserId">
+							</div>
+						
+							<label for="password" class="col-sm-2 control-label">用户密码</label>
+							<div class="col-sm-4">
+								<input type="password" class="form-control" id="password" name="password" placeholder="请输入密码">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="realname" class="col-sm-2 control-label">真实姓名</label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" id="realname" name="realname" placeholder="请输入姓名">
+							</div>
+						
+							<label for="userType" class="col-sm-2 control-label">用户类型</label>
+							<div class="col-sm-4">
+								<select name="userType" id="userType" style="width: 100%; height: 34px;">
+									<option value="">--请选择--</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="docTitleID" class="col-sm-2 control-label">医生职称 </label>
+							<div class="col-sm-4">
+								<select name="docTitleID" id="docTitleID" style="width: 100%; height: 34px;">
+									<option value="">--请选择--</option>
+								</select>
+							</div>
+						
+							<label for="isScheduling" class="col-sm-2 control-label">是否排班</label>
+							<div class="col-sm-4">
+								<input type="radio" id="sche" name="isScheduling" value="1">是
+								<input type="radio" id="nosche" name="isScheduling" value="0">否
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="departmentid" class="col-sm-2 control-label">所属科室</label>
+							<div class="col-sm-4">
+								<select name="departmentid" id="departmentid" style="width: 100%; height: 34px;">
+									<option value="">--请选择--</option>
+								</select>
+							</div>
+						
+							<label for="registLeID" class="col-sm-2 control-label">挂号级别</label>
+							<div class="col-sm-4">
+								<select name="registLeID" id="registLeID" style="width: 100%; height: 34px;">
+									<option value="">--请选择--</option>
+								</select>
+							</div>
+						</div>
+						
+					</form>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-info" id="addBtn" onclick="doSaveOrUpdate()">保存</button>
+					<button type="button" class="btn btn-success" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加：end -->
+</body>
+</html>
